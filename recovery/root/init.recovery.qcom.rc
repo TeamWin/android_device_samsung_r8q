@@ -60,3 +60,5 @@ on property:crypto.ready=0
 
 on property:twrp.user.0.decrypt=0
     umount /vendor/firmware_mnt
+    umount /mnt/vendor/efs
+    umount /mnt/vendor/persist
