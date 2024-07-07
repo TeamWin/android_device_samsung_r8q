@@ -14,7 +14,7 @@
 #
 
 check_fbe() {
-  local fbe_ver=$(grep -m1 "fileencryption=ice" "/tmp/vendor/etc/fstab.qcom")
+  local fbe_ver=$(grep -m1 -o "fileencryption=ice" "/tmp/vendor/etc/fstab.qcom")
   if [ "$fbe_ver" = "fileencryption=ice" ]; then
       echo " - FBE V1 detected"
       disable_fbe_v1
