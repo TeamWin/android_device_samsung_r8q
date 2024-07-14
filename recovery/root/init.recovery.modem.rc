@@ -1,0 +1,36 @@
+on fs
+    mkdir /vendor/firmware-modem
+    mount vfat /dev/block/bootdevice/by-name/modem /vendor/firmware-modem ro
+
+# Services
+service vendor.pd_mapper /vendor/bin/pd-mapper
+    user root
+    group root
+    setenv LD_LIBRARY_PATH /vendor/lib64:/vendor/lib:/system/lib64:/system/lib:/sbin
+    seclabel u:r:recovery:s0
+
+service vendor.per_mgr /vendor/bin/pm-service
+    user root
+    group root
+    setenv LD_LIBRARY_PATH /vendor/lib64:/vendor/lib:/system/lib64:/system/lib:/sbin
+    seclabel u:r:recovery:s0
+    ioprio rt 4
+
+service vendor.per_proxy /vendor/bin/pm-proxy
+    user root
+    group root
+    setenv LD_LIBRARY_PATH /vendor/lib64:/vendor/lib:/system/lib64:/system/lib:/sbin
+    disabled
+    seclabel u:r:recovery:s0
+
+service vendor.mdm_helper /vendor/bin/mdm_helper
+    user root
+    group root
+    setenv LD_LIBRARY_PATH /vendor/lib64:/vendor/lib:/system/lib64:/system/lib:/sbin
+    seclabel u:r:recovery:s0
+
+on property:init.svc.vendor.per_mgr=running
+    start vendor.per_proxy
+
+on property:sys.shutdown.requested=*
+    stop vendor.per_proxy

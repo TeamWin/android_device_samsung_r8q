@@ -26,6 +26,7 @@
 #
 
 import /init.recovery.qcom_decrypt.rc
+import /init.recovery.modem.rc
 
 on early-init
     mkdir /mnt/vendor/persist
